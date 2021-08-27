@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { storeMoneyService } from "../../../Services/";
 import { useHistory } from "react-router-dom";
 import { BiLoader } from "react-icons/bi";
+import moment from 'moment';
 
 const FormInputMoney = () => {
   const history = useHistory();
@@ -22,23 +23,32 @@ const FormInputMoney = () => {
 
   const onSubmit = (values) => {
     setLoading(true);
-    const newvalue = {
-      ...values,
-      amount: values.amount.split(".").join(""),
-    };
-    storeMoneyService(userLogin, newvalue)
-      .then((data) => {
-        if (data.status === 200) {
+
+    let currentDate = new Date();
+    if(moment(values.date).isSameOrAfter(currentDate)){
+      alert("Tidak bisa")
+    }else{
+      const newvalue = {
+        ...values,
+        amount: values.amount.split(".").join(""),
+      };
+  
+      storeMoneyService(userLogin, newvalue)
+        .then((data) => {
+          if (data.status === 200) {
+            setLoading(false);
+            localStorage.setItem("MONEY_SUCCESS", "SUCCESS");
+            history.push("/money");
+          }
+          console.log("Berhasil ", data);
+        })
+        .catch((error) => {
           setLoading(false);
-          localStorage.setItem("MONEY_SUCCESS", "SUCCESS");
-          history.push("/money");
-        }
-        console.log("Berhasil ", data);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log("Error ", error);
-      });
+          console.log("Error ", error);
+        });
+    }
+
+    
   };
 
   const validationSchema = Yup.object({

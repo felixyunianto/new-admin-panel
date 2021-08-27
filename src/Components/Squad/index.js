@@ -13,6 +13,9 @@ import FormInput from "./ChildSquad/FormInput";
 import ModalDelete from "./ChildSquad/ModalDelete";
 
 const SquadComponent = () => {
+  const [filePath, setFilePath] = useState(null);
+  // eslint-disable-next-line
+  
   const initialValues = {
     id: "",
     squads_name: "",
@@ -21,7 +24,12 @@ const SquadComponent = () => {
 
   const onSubmit = (values, { resetForm }) => {
     if (!values.id) {
-      postSquad(values.squads_name, values.description)
+      const squadData = new FormData();
+      squadData.append('squads_name', values.squads_name)
+      squadData.append('description', values.description)
+      squadData.append('image', filePath !== null ? filePath[0] : null)
+
+      postSquad(squadData)
         .then((data) => {
           if (data.status === 200) {
             setRefreshKey((oldKey) => oldKey + 1);
@@ -29,21 +37,27 @@ const SquadComponent = () => {
             formik.values.id = "";
             formik.values.squads_name = "";
             formik.values.description = "";
+            setFilePath(null)
           }
         })
         .catch((error) => {
           console.log("Error ", error);
         });
     } else {
-      const { squads_name, description } = values;
 
-      updateSquad(values.id, { squads_name, description }).then((data) => {
+      const squadData = new FormData();
+      squadData.append('squads_name', values.squads_name)
+      squadData.append('description', values.description)
+      squadData.append('image', filePath !== null ? filePath[0] : null)
+
+      updateSquad(values.id, squadData).then((data) => {
         if (data.status === 200) {
           setRefreshKey((oldKey) => oldKey + 1);
           swal("Success!", "Update Data is Successful!", "success");
           formik.values.id = "";
           formik.values.squads_name = "";
           formik.values.description = "";
+          setFilePath(null)
         }
       });
     }
@@ -62,7 +76,6 @@ const SquadComponent = () => {
 
   const [show, setShow] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-
   const [loading, setLoading] = useState(false);
   const [squads, setSquads] = useState([]);
   const [squadId, setSquadId] = useState("");
@@ -86,6 +99,17 @@ const SquadComponent = () => {
 
   const columns = [
     {
+      name: "Image",
+      selector: "iamge",
+      sortable: false,
+      maxWidth: "150px",
+      cell : (state) => (
+        <div className="w-full flex justify-center items-center p-2">
+          <img src={state.image != null ? state.image : "https://res.cloudinary.com/plugin007/image/upload/v1603734215/logoPLUGIN_qsovpm.png"} className="object-fill w-24 h-12" alt="squad"/>
+        </div>
+      )
+    },
+    {
       name: "Squad Name",
       selector: "squads_name",
       sortable: true,
@@ -102,15 +126,6 @@ const SquadComponent = () => {
       selector: "id",
       cell: (state) => (
         <div>
-          {/* <Link
-            to={{
-              pathname: "/squad/" + state.squads_name.toLowerCase(),
-              query: state.id,
-            }}
-            className="font-medium bg-blue-400 px-3 py-2 rounded-lg mx-2"
-          >
-            Detail
-          </Link> */}
           <button
             onClick={(e) => {
               formik.resetForm();
@@ -155,8 +170,8 @@ const SquadComponent = () => {
           <TitlePage title="Squad" description="Squad Page" />
           <div className="-mt-10 px-5">
             <div className="flex gap-5">
-              <div className="border bg-white rounded-md p-5 w-4/12 h-80">
-                <FormInput formik={formik} />
+              <div className="border bg-white rounded-md p-5 w-4/12">
+                <FormInput formik={formik} filePath={filePath} setFilePath={setFilePath}/>
               </div>
               <div className="border bg-white rounded-md p-5 w-8/12">
                 <DataTable

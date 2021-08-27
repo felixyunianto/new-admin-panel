@@ -15,13 +15,10 @@ export const getSquadById = (squadId) => {
   });
 };
 
-export const postSquad = (squads_name, description) => {
+export const postSquad = (data) => {
   return axios.post(
     API_URL + "squad",
-    {
-      squads_name,
-      description,
-    },
+    data,
     {
       headers: authHeader(),
     }

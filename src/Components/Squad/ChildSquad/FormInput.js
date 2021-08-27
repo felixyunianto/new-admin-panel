@@ -1,6 +1,11 @@
 import React from "react";
+import { BiFolderOpen, BiCheckCircle } from "react-icons/bi";
 
-const FormInput = ({ formik }) => {
+const FormInput = ({ formik, filePath, setFilePath }) => {
+  const handleChangeImage = (e) => {
+    setFilePath(e.target.files);
+  };
+
   return (
     <>
       <div>
@@ -21,7 +26,9 @@ const FormInput = ({ formik }) => {
               value={formik.values.squads_name}
             />
             {formik.touched.squads_name && formik.errors.squads_name ? (
-              <span className="text-red-500 text-sm">{formik.errors.squads_name}</span>
+              <span className="text-red-500 text-sm">
+                {formik.errors.squads_name}
+              </span>
             ) : null}
           </div>
           <div className="relative mb-4">
@@ -36,10 +43,48 @@ const FormInput = ({ formik }) => {
               value={formik.values.description}
             ></textarea>
             {formik.touched.description && formik.errors.description ? (
-              <span className="text-red-500 text-sm">{formik.errors.description}</span>
+              <span className="text-red-500 text-sm">
+                {formik.errors.description}
+              </span>
             ) : null}
           </div>
-
+          <div className="realtive mb-4">
+            <label htmlFor="image">Image</label>
+            <div
+              className={
+                (filePath != null
+                  ? "border-green-500"
+                  : "border-blue-500") +
+                    " cursor-pointer relative border-dotted h-32 rounded-lg border-dashed border-2 bg-gray-100 flex justify-center items-center"
+              }
+            >
+              <div className="absolute">
+                <div className="flex flex-col items-center">
+                  {filePath != null ? (
+                    <>
+                      <BiCheckCircle className="text-green-500 text-2xl" />
+                      <span className="block text-gray-400 font-normal">
+                        File uploaded
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <BiFolderOpen className="text-blue-500 text-2xl" />
+                      <span className="block text-gray-400 font-normal">
+                        Attach you files here
+                      </span>
+                    </>
+                  )}
+                </div>
+              </div>
+              <input
+                type="file"
+                className="h-full w-full opacity-0"
+                name="image"
+                onChange={handleChangeImage}
+              />
+            </div>
+          </div>
           <div className="relative">
             <button
               type="submit"
