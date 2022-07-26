@@ -8,11 +8,13 @@ import {
   getDetailUserService,
   updateUserService,
 } from "../../../Services";
+import { checkDiffDay } from "../../../Redux/helpers/diffDay";
 
 const FormEdit = () => {
   const history = useHistory();
   const location = useLocation();
   const [squads, setSquads] = useState([]);
+  const [diffDay, setDiffDay] = useState(0);
 
   const userId = location.state.userId;
 
@@ -20,6 +22,7 @@ const FormEdit = () => {
     const getDetailUser = () => {
       getDetailUserService(userId)
         .then((data) => {
+          setDiffDay(checkDiffDay(data.data.data.createdAt));
           formik.setFieldValue("name", data.data.data.name);
           formik.setFieldValue("username", data.data.data.username);
           formik.setFieldValue("email", data.data.data.email);
@@ -56,7 +59,7 @@ const FormEdit = () => {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Required!"),
+    name: Yup.string().required("Required!").matches(/^[aA-zZ\s]+$/, "Hanya huruf yang di ijinkan"),
     username: Yup.string().min(3, "Min 3 character").required("Required!"),
     email: Yup.string().email("Invalid email Format!").required("Required!"),
     squad_id: Yup.string().required("Required!"),
@@ -169,8 +172,12 @@ const FormEdit = () => {
             onBlur={formik.handleBlur}
           >
             <option value="Admin">Choose Roles</option>
-            <option value="Mentor">Mentor</option>
-            <option value="Bendahara">Bendahara</option>
+            {diffDay >= 30 && (
+              <>
+                <option value="Mentor">Mentor</option>
+                <option value="Bendahara">Bendahara</option>
+              </>
+            )}
             <option value="Anggota">Anggota</option>
           </select>
           {formik.touched.roles && formik.errors.roles ? (

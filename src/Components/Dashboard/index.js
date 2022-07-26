@@ -60,9 +60,9 @@ const DashboardComponent = () => {
     <>
       <TitlePage title="Dashboard" description="Dashboard Page" />
       <div className="-mt-10 px-5 flex gap-3">
-        <div className="border bg-white rounded-md p-10 w-8/12 h-96">
+        <div className="border bg-white rounded-md p-10 w-8/12 h-auto">
           <h5 className="text-gray-700 font-medium text-lg">TOTAL PEMASUKAN</h5>
-          <div className="flex justify-content-center w-full pb-10 items-center">
+          <div className="flex justify-content-center w-full items-center">
             <Line
               data={{
                 labels: monthChart,
@@ -83,8 +83,8 @@ const DashboardComponent = () => {
                   },
                 ],
               }}
-              width={100}
-              height={50}
+              width={90}
+              height={30}
               options={{
                 scales: {
                   yAxes: [
@@ -100,9 +100,9 @@ const DashboardComponent = () => {
             />
           </div>
         </div>
-        <div className="border bg-white rounded-md p-10 w-4/12 h-96">
+        <div className="border bg-white rounded-md px-10 w-4/12 py-5">
           <h5 className="text-gray-700 font-medium text-lg">LIST MEMBER</h5>
-          <div className="flex justify-content-center w-full pb-10 items-center">
+          <div className="flex justify-content-center w-full items-center">
             <table className="mx-auto w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 border ">
               <thead className="bg-gray-50">
                 <tr className="text-gray-600 text-left">

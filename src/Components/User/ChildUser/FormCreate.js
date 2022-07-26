@@ -40,7 +40,7 @@ const FormCreate = () => {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Required!"),
+    name: Yup.string().required("Required!").matches(/^[aA-zZ\s]+$/, "Hanya huruf yang di ijinkan"),
     username: Yup.string().min(3, "Min 3 character").required("Required!"),
     email: Yup.string().email("Invalid email Format!").required("Required!"),
     password: Yup.string().min(6, "Min 6 character").required("Required!"),

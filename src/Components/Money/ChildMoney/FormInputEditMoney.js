@@ -119,6 +119,7 @@ const FormInputEditMoney = () => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.date}
+          max={new Date().toISOString().split("T")[0]}
         />
         {formik.touched.date && formik.errors.date ? (
           <span className="text-red-500 text-sm">{formik.errors.date}</span>
