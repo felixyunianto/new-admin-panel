@@ -1,10 +1,11 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, SET_MESSAGE } from "./types";
 
-import { signInServices, signOutServices } from '../../Services/';
+import { signInServices, signOutServices } from "../../Services/";
 
 export const signIn = (username, password) => (dispatch) => {
   return signInServices(username, password).then(
     (data) => {
+      console.log(data.data);
       dispatch({
         type: LOGIN_SUCCESS,
         payload: { user: data.data },
@@ -26,14 +27,15 @@ export const signIn = (username, password) => (dispatch) => {
 };
 
 export const signOut = () => (dispatch) => {
-  return signOutServices().then((data) => {
-    dispatch({
-      type: LOGOUT
-    })
-    return Promise.resolve();
-  },
-  (error) => {
-    const message =
+  return signOutServices().then(
+    (data) => {
+      dispatch({
+        type: LOGOUT,
+      });
+      return Promise.resolve();
+    },
+    (error) => {
+      const message =
         (error.response && error.response.data && error.response.data.error) ||
         error.error ||
         error.toString();
@@ -43,5 +45,15 @@ export const signOut = () => (dispatch) => {
         payload: message,
       });
       return Promise.reject();
+    }
+  );
+};
+
+export const changeProfileRedux = (data) => (dispatch) => {
+  dispatch({
+    type: LOGIN_SUCCESS,
+    payload: {
+      user: data,
+    },
   });
 };

@@ -17,9 +17,17 @@ const HeaderComponent = (props) => {
 
   const handleSignOut = () => {
     dispatch(signOut()).then((data) => {
-      console.log("Berhasil Logout");
       props.history.push("/login");
       window.location.reload();
+    });
+  };
+
+  const handleProfile = () => {
+    props.history.push({
+      pathname: "/profile",
+      state: {
+        userId: currentUser.id,
+      },
     });
   };
   return (
@@ -75,11 +83,21 @@ const HeaderComponent = (props) => {
               className="inline-flex mx-7 px-4 gap-5 items-center shadow-none border-0 h-10 self-center focus:outline-none "
               onClick={() => setDropDown(!dropdown)}
             >
-              <img
-                src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixid=MXwxMjA3fDB8MHxzZWFyY2h8OHx8bWFufGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                className="w-8 rounded-full h-8"
-                alt="user"
-              />
+              {currentUser.photo ? (
+                <img
+                  src={currentUser.photo}
+                  className="w-8 rounded-full h-8"
+                  alt="user"
+                />
+              ) : (
+                <div className="w-8 h-8 rounded-full object-stretch bg-yellow-500">
+                  <div className="flex justify-center items-center h-full">
+                    <label className="text-white font-medium text-md">
+                      {currentUser.name.charAt(0)}
+                    </label>
+                  </div>
+                </div>
+              )}
               <span className="inline-block">{currentUser.name}</span>
               <BiChevronDown />
             </button>
@@ -92,6 +110,16 @@ const HeaderComponent = (props) => {
               aria-orientation="vertical"
               aria-labelledby="options-menu"
             >
+              <div className="" role="none">
+                <button
+                  onClick={handleProfile}
+                  type="button"
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  role="menuitem"
+                >
+                  Profile
+                </button>
+              </div>
               <div className="py-1" role="none">
                 <button
                   onClick={handleSignOut}

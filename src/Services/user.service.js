@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { API_URL } from "../Utils/API";
-import { authHeader } from "./auth-header";
+import { authHeader,FormData } from "./auth-header";
 
 export const getAllUser = () => {
   return axios.get(API_URL + "user", {
@@ -41,3 +41,9 @@ export const deleteUserService = (id) => {
     headers: authHeader(),
   });
 };
+
+export const changePhotoProfile = (id, body) => {
+  return axios.put(API_URL +'user/profile/'+id, body, {
+    headers: FormData()
+  })
+}

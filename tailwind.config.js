@@ -14,7 +14,9 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      display : ['group-hover', 'hover']
+    },
   },
   plugins: [
     require('tailwind-scrollbar-hide')

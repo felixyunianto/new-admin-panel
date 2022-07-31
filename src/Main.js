@@ -49,6 +49,7 @@ import EditDataMoneyPage from "./Pages/Money/EditMoneyData";
 
 import LoginPage from "./Pages/Auth/Login/";
 import ForbiddenPages from "./Pages/Forbidden/";
+import ProfilePage from "./Pages/Profile";
 
 const Main = (props) => {
   console.log("Main Props ", props);
@@ -180,6 +181,8 @@ const Main = (props) => {
                 component={CreateNewDataMoneyPage}
               />
               <PrivateRoute path="/money-edit" component={EditDataMoneyPage} />
+
+              <PrivateRoute path="/profile" component={ProfilePage} />
 
               <Route path="/forbidden" component={ForbiddenPages} />
             </div>
