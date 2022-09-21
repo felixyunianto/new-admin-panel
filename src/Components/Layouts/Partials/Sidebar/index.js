@@ -301,6 +301,27 @@ const SidebarComponent = (props) => {
                         </span>
                       </Link>
                     </li>
+                    <li className="block">
+                      <Link
+                          to="/oprec"
+                          className="text-gray-400 py-2 px-7 font-regular font-poppins flex items-center gap-4 hover:text-white hover:text-white focus:text-white"
+                      >
+                        <span>
+                          <BiCalendarEvent
+                              style={{ fontSize: 18 }}
+                              className="opacity-0"
+                          />
+                        </span>
+                        <span
+                            style={{
+                              display: props.toggle === false ? "" : "none",
+                            }}
+                            className="inline-block relative"
+                        >
+                          Open Recruitment
+                        </span>
+                      </Link>
+                    </li>
                   </ul>
                 </div>
                 <div className={dropdownEvent && props.toggle ? "" : "hidden"}>

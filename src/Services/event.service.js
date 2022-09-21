@@ -32,3 +32,10 @@ export const deleteEventService = (id) => {
     headers: authHeader(),
   });
 };
+
+export const getAllMemberOprecService = () => {
+  return axios.get(API_URL+ "prospective-member", {
+    headers: authHeader()
+  })
+}
+

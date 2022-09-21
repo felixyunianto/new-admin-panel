@@ -38,6 +38,7 @@ import EventPage from "./Pages/Event/";
 import CreateNewDataEventPage from "./Pages/Event/CreateNewDataEvent";
 import EditEventPage from "./Pages/Event/EditEvent";
 import DetailEventPage from "./Pages/Event/DetailEvent";
+import OprecPage from './Pages/Event/Oprec'
 
 import CashPage from "./Pages/Cash/index2";
 
@@ -156,6 +157,7 @@ const Main = (props) => {
               />
               <PrivateRoute path="/event-edit" component={EditEventPage} />
               <PrivateRoute path="/event-detail" component={DetailEventPage} />
+              <PrivateRoute path="/oprec" component={OprecPage} />
 
               <AdminRoute path="/user" component={UserPage} />
 
